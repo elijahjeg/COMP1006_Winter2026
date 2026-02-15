@@ -1,5 +1,5 @@
 <?php
-//TODO:
+require "includes/header.php";
 require "includes/connect.php";
 
 /*
@@ -11,7 +11,13 @@ require "includes/connect.php";
   5. Fetch all results into $subscribers
 */
 
-$subscribers = []; // placeholder
+$stmt = $pdo->prepare("SELECT * FROM subscribers ORDER BY subscribed_at DESC");
+
+$stmt -> execute();
+
+$subscribers = $stmt->fetchAll();
+
+$pdo = null; // Close the database connection
 ?>
 
 <main class="container mt-4">
@@ -32,6 +38,15 @@ $subscribers = []; // placeholder
       </thead>
       <tbody>
         <!-- TODO: Loop through $subscribers and output each row -->
+         <?php foreach ($subscribers as $sub): ?>
+          <tr>
+              <th><?= $sub['id'] ?></th>
+              <th><?= $sub['first_name'] ?></th>
+              <th><?= $sub['last_name'] ?></th>
+              <th><?= $sub['email'] ?></th>
+              <th><?= $sub['subscribed_at'] ?></th>
+         </tr>
+         <?php endforeach?>
       </tbody>
     </table>
   <?php endif; ?>
@@ -40,5 +55,3 @@ $subscribers = []; // placeholder
     <a href="index.php">Back to Subscribe Form</a>
   </p>
 </main>
-
-<?php require "includes/footer.php"; ?>

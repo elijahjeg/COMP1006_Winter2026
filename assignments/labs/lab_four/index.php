@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COMP1006 - Lab Four</title>
-</head>
-
+<?php require "includes/header.php";?>
 <body>
 
     <main class="container mt-4">
