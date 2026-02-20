@@ -1,4 +1,5 @@
 <?php
+$pageTitle = "Player Confirmation";
 require "includes/header.php";
 
 // Sanitize and trim the form data

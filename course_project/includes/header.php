@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Team Tracker</title>
+        <title>Team Tracker | <?= $pageTitle ?></title>
         <link href="styles/main.css" rel="stylesheet">
         <!--add bootstrap css -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -13,5 +13,14 @@
     </head>
     <body>
         <header>
-            <h1 class="site-title">Team Tracker</h1>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="index.php">Team Tracker</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php">Create a New Player</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </header>

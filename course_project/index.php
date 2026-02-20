@@ -1,4 +1,5 @@
 <?php
+    $pageTitle = "Add a New Player";
     require "includes/header.php";
 ?>
 <main>
