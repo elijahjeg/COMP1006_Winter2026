@@ -1,0 +1,9 @@
+ CREATE TABLE players (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  position VARCHAR(100) NOT NULL,
+  team_name VARCHAR(100) NOT NULL,
+  phone VARCHAR(25) NOT NULL,
+  email VARCHAR(150) NOT NULL
+);
