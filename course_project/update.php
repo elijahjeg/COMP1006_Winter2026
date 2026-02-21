@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Update the player's information in the database using a prepared statement
     $sql = "UPDATE players
             SET first_name = :first_name,
                 last_name = :last_name,
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 position = :position,
                 team_name = :team_name
             WHERE id = :id";
-
+// Prepare the statement with pdo->prepare()
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(":first_name", $firstName);
     $stmt->bindParam(":last_name", $lastName);
@@ -71,13 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form method="post">
         <div class="mb-3">
-            <label for="fname" class="form-label">First Name:</label>
-            <input type="text" class="form-control" id="fname" name="fname" value="<?= htmlspecialchars($player['first_name']) ?>" required>
+            <label for="first_name" class="form-label">First Name:</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" value="<?= htmlspecialchars($player['first_name']) ?>" required>
         </div>
 
         <div class="mb-3">
-            <label for="lname" class="form-label">Last Name:</label>
-            <input type="text" class="form-control" id="lname" name="lname" value="<?= htmlspecialchars($player['last_name']) ?>" required>
+            <label for="last_name" class="form-label">Last Name:</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" value="<?= htmlspecialchars($player['last_name']) ?>" required>
         </div>
 
         <div class="mb-3">

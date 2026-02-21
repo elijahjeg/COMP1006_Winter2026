@@ -48,9 +48,17 @@ $pdo = null; // Close the database connection
                         <td><?= htmlspecialchars($player['team_name']) ?></td>
 
                         <!-- Add an Update button that links to the update page with the player's ID as a query parameter -->
-                        <td>
-                            <button class="btn btn-secondary">
+                        <td class="d-flex justify-content-center gap-4"> <!-- Make the buttons flex items -->
+                            <button class="btn btn-sm btn-warning">
                                 <a href="update.php?id=<?= htmlspecialchars($player['id']) ?>" class="text-white">Update</a>
+                            </button>
+                            <button class="btn btn-sm btn-danger">
+                                <a 
+                                    href="delete.php?id=<?= htmlspecialchars($player['id']) ?>" 
+                                    class="text-white"
+                                    onclick="return confirm('Are you sure you want to delete this player?');">
+                                    Delete
+                                </a>
                             </button>
                         </td>
                     </tr>
@@ -61,7 +69,8 @@ $pdo = null; // Close the database connection
 
     <!-- Link back to the form to add another player -->
     <button class="mt-3 btn btn-primary">
-        <a href="index.php" class="text-white">Add Another Player</a>
+        <!-- If there are no players, say "Add a Player". If there are already players, say "Add Another Player" -->
+        <a href="index.php" class="text-white">Add <?= empty($players) ? "a" : "Another" ?> Player</a>
     </button>
 </main>
 

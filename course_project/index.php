@@ -1,17 +1,18 @@
 <?php
+    // This page allows the creation of a new player
     $pageTitle = "Create a New Player";
     require "includes/header.php";
 ?>
 <main>
     <form method="post" action="process.php">
         <div>
-            <label for="fname">First Name:</label>
-            <input type="text" name="fname" id="fname" autocomplete="given-name" required />
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name" autocomplete="given-name" required />
         </div>
 
         <div>
-            <label for="lname">Last Name:</label>
-            <input type="text" name="lname" id="lname" autocomplete="family-name" required />
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" autocomplete="family-name" required />
         </div>
     
         <div>
