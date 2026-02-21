@@ -13,12 +13,17 @@
     </head>
     <body>
         <header>
+            <!-- Use Bootstrap's navbar component for the header -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="index.php">Team Tracker</a>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.php">Create a New Player</a>
+                            <!-- Use the $pageTitle variable to set the active class on the current page's link -->
+                            <a class="nav-link <?= ($pageTitle === 'Create a New Player') ? 'active' : '' ?>" href="index.php">Create a New Player</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($pageTitle === 'View All Players') ? 'active' : '' ?>" href="players.php">View All Players</a>
                         </li>
                     </ul>
                 </div>

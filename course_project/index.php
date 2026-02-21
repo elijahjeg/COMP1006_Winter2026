@@ -1,5 +1,5 @@
 <?php
-    $pageTitle = "Add a New Player";
+    $pageTitle = "Create a New Player";
     require "includes/header.php";
 ?>
 <main>
@@ -15,8 +15,8 @@
         </div>
     
         <div>
-            <label for="pos">Position:</label>
-            <input type="text" name="pos" id="pos" required />
+            <label for="position">Position:</label>
+            <input type="text" name="position" id="position" required />
         </div>
 
         <div>
@@ -30,8 +30,8 @@
         </div>
 
         <div>
-            <label for="team">Team Name:</label>
-            <input type="text" name="team" id="team" autocomplete="none" required /> <!--Browser may confuse this for full name-->
+            <label for="team_name">Team Name:</label>
+            <input type="text" name="team_name" id="team_name" autocomplete="none" required /> <!--Browser may confuse this for full name-->
         </div>
 
         <div>
