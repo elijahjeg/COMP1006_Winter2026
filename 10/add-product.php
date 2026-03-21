@@ -41,6 +41,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     //Add Code Here 
+    // Check if an image was uploaded
+    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] !== UPLOAD_ERR_NO_FILE ){
+        //make sure upload complete successfully
+        if ($_FILES['product_image']['error'] !== UPLOAD_ERR_OK ){
+            $errors[] = 'Error uploading image.';
+        }
+        else {
+            //Array to hold allowed file types
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+            //detect the file type of the uploaded image
+            $detectedType = mime_content_type($_FILES['product_image']['tmp_name']);
+            // check if the detected file type is in the allowed types array
+            if (!in_array($detectedType, $allowedTypes, true)) {
+                $errors[] = 'Invalid image type. Allowed types: JP(E)G, PNG, WEBP.';
+            }
+            // Limit file size to 2MB (2 * 1024 * 1024 bytes) 
+            elseif ($_FILES['product_image']['size'] > 2 * 1024 * 1024) {
+                $errors[] = 'Image size exceeds 2MB limit.';
+            }
+            else {
+                // Build the file name and move it to the uploads directory
+                // get the file extension
+                $extension = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
+                // create a unique file name so uploaded files don't overwrite each other
+                $safeFilename = uniqid('prouct_', true) . '.' . strtolower($extension);
+                //Build the full server path where the file will be stored
+                $destination = __DIR__ . '/uploads/' . $safeFilename;
+                //Check if the file uploaded successfully and move it to the destination
+                if (move_uploaded_file($_FILES['product_image']['tmp_name'], $destination)) {
+                    // Save the relative path to the image for storing in the database
+                    $imagePath = 'uploads/' . $safeFilename;
+                } else {
+                    $errors[] = 'Failed to move uploaded image.';
+                }
+            }
+        }
+    }
 
     // If there are no errors, insert the product into the database
     if (empty($errors)) {
@@ -122,4 +159,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </main>
 
-<?php require "footer.php"; ?>
+<?php require "includes/footer.php"; ?>
