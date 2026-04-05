@@ -9,6 +9,50 @@ require "includes/validation.php"; // Sanitize and validate the form data
 $pageTitle = "Player Confirmation";
 require "includes/header.php";
 
+$image = $_FILES['image'];
+if (isset($image) && $image['error'] !== UPLOAD_ERR_NO_FILE){
+    // Make sure the image was uploaded successfully
+    if ($image['error'] !== UPLOAD_ERR_OK){
+        $errors[] = 'Error uploading image';
+    }
+    else {
+        // Array to hold allowed file types
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+
+        // Detect the file type of the image
+        $detectedType = mime_content_type($image['tmp_name']);
+
+        // Check if the detected file type is an allowed type
+        if (!in_array($detectedType, $allowedTypes, true)) {
+            $errors[] = 'Invalid image type. The allowed image types are: JP(E)G, PNG, AND WEBP';
+        }
+
+        // Limit the file size to 2 MB
+        elseif ($image['size'] > 2 * 1024 * 1024){
+            $errors[] = 'Max image size of 2MB exceeded.';
+        }
+
+        else {
+            // Grab the extension of the image
+            $extension = pathinfo($image['name'], PATHINFO_EXTENSION);
+
+            // Make a unique filename to privent file overwrites
+            $safeFilename = uniqid('product_', true) . '.' . strtolower($extension);
+
+            // Get the full path that the file will be stored
+            $destination = __DIR__ . '/uploads/' . $safeFilename;
+
+            if (move_uploaded_file($image['tmp_name'], $destination)){
+                // Get the relative path so we can display it to the user.
+                $imagePath = 'uploads/' . $safeFilename;
+            }
+            else {
+                $errors[] = 'Failed to move the uploaded image.';
+            }
+        }
+    }
+}
+
 // If there are any errors let the user know and stop the script before doing anything else
 if (!empty($errors)) { ?>
     <div class='alert alert-danger'>
@@ -30,8 +74,8 @@ if (!empty($errors)) { ?>
 
 require "includes/connect.php";
 
-$sql = "INSERT INTO players (first_name, last_name, email, phone, position, team_name) 
-             VALUES (:first_name, :last_name, :email, :phone, :position, :team_name)"; // SQL statement with named placeholders
+$sql = "INSERT INTO players (first_name, last_name, email, phone, position, team_name, image_path) 
+             VALUES (:first_name, :last_name, :email, :phone, :position, :team_name, :image_path)"; // SQL statement with named placeholders
 
 $stmt = $pdo->prepare($sql); // Prepare the statement with pdo->prepare()
 
@@ -42,6 +86,7 @@ $stmt->bindParam(":email", $email);
 $stmt->bindParam(":phone", $phone);
 $stmt->bindParam(":position", $position);
 $stmt->bindParam(":team_name", $team_name);
+$stmt->bindParam(":image_path", $imagePath); // Assuming $imagePath holds the path to the uploaded image, or null if no image was uploaded
 
 $stmt->execute(); // Execute the statement
 
@@ -55,6 +100,7 @@ $userInfo = [
     "Phone Number" => htmlspecialchars($phone),
     "Email" => htmlspecialchars($email),
     "Team Name" => htmlspecialchars($team_name),
+    "Player Photo" => isset($imagePath) ? "<img src='$imagePath' alt='Player Image'>" : "No image uploaded"
 ];
 ?>
 

@@ -5,5 +5,6 @@
   position VARCHAR(100) NOT NULL,
   team_name VARCHAR(100) NOT NULL,
   phone VARCHAR(25) NOT NULL,
-  email VARCHAR(150) NOT NULL
+  email VARCHAR(150) NOT NULL,
+  image_path VARCHAR(255)
 );

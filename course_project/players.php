@@ -26,6 +26,7 @@ $pdo = null; // Close the database connection
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Photo</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
@@ -40,7 +41,13 @@ $pdo = null; // Close the database connection
                     <tr>
                         <!-- Escape all output to prevent any unexpected HTML from being rendered -->
                         <td><?= htmlspecialchars($player['id']) ?></td>
-                        <td><?= htmlspecialchars($player['first_name']) ?></td>
+                        <td>
+                            <?php if ($player['image_path']):?>
+                            <img src="<?= htmlspecialchars($player['image_path'])?>" alt="<?= htmlspecialchars($player['first_name'])?>">
+                            <?php else:?>
+                            No photo provided
+                            <?php endif ?>
+                        </td>
                         <td><?= htmlspecialchars($player['last_name']) ?></td>
                         <td><?= htmlspecialchars($player['email']) ?></td>
                         <td><?= htmlspecialchars($player['phone']) ?></td>

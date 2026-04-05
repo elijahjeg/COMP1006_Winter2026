@@ -6,3 +6,8 @@ a {
     text-decoration: none;
     color: inherit;
 }
+
+img {
+    height: 48px;
+    width: 72px;
+}

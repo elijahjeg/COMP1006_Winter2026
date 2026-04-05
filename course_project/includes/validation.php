@@ -47,3 +47,4 @@ if ($phone === null || $phone === '') {
 ])) {
     $errors[] = "Phone number format is invalid.";
 }
+
