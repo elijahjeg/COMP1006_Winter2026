@@ -26,6 +26,29 @@
                             <a class="nav-link <?= ($pageTitle === 'View All Players') ? 'active' : '' ?>" href="players.php">View All Players</a>
                         </li>
                     </ul>
+                <?php
+                    // Check if the user is logged in by checking if the username is set in the session
+                    require "includes/auth.php";
+                    if (isLoggedIn()): ?>
+                        <div class="ms-auto d-flex align-items-center">
+                            <span class="navbar-text me-4">Welcome, <?= htmlspecialchars($_SESSION['username']); ?>!</span>
+                            <div class="nav-item dropdown-center">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    My Account
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="settings.php">Settings</a></li>
+                                    <li class="red"><a class="dropdown-item" href="logout.php">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="ms-auto">
+                            <a href="register.php" class="btn btn-sm btn-outline-primary <?= ($pageTitle === 'Sign Up') ? 'active' : '' ?>">Sign Up</a>
+                            <a href="login.php" class="btn btn-sm btn-outline-secondary <?= ($pageTitle === 'Login') ? 'active' : '' ?>">Login</a>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
             </nav>
         </header>

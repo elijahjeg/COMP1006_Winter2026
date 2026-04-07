@@ -2,6 +2,7 @@
     // This page allows the creation of a new player
     $pageTitle = "Create a New Player";
     require "includes/header.php";
+    requireLogin("index.php"); // Redirect to login page if not logged in
 ?>
 <main>
     <form method="post" action="process.php" enctype="multipart/form-data">

@@ -4,10 +4,14 @@ $pageTitle = "View All Players";
 require "includes/header.php";
 require "includes/connect.php";
 
+// header.php already includes auth.php so we don't need to include it again here
+requireLogin("players.php"); // Redirect to login page if not logged in
+
 // Get all players in the database and display them in a table
-$sql = "SELECT * FROM players ORDER BY id";
+$sql = "SELECT * FROM players WHERE (user_id = :user_id) ORDER BY id";
 
 $stmt = $pdo->prepare($sql);
+$stmt->bindParam(":user_id", $_SESSION['user_id']);
 $stmt->execute();
 $players = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -48,6 +52,7 @@ $pdo = null; // Close the database connection
                             No photo provided
                             <?php endif ?>
                         </td>
+                        <td><?= htmlspecialchars($player['first_name']) ?></td>
                         <td><?= htmlspecialchars($player['last_name']) ?></td>
                         <td><?= htmlspecialchars($player['email']) ?></td>
                         <td><?= htmlspecialchars($player['phone']) ?></td>

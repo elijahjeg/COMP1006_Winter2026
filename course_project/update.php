@@ -3,9 +3,13 @@ $pageTitle = "Update Player Information";
 require "includes/header.php";
 require "includes/connect.php";
 
+
 if (!isset($_GET['id'])){
     die("No player ID provided.");
 }
+
+requireLogin("update.php?id=" . $_GET['id']); // Redirect to login page if not logged in
+
 
 $playerId = $_GET['id'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $extension = pathinfo($image['name'], PATHINFO_EXTENSION);
 
                 // Make a unique filename to privent file overwrites
-                $safeFilename = uniqid('product_', true) . '.' . strtolower($extension);
+                $safeFilename = uniqid('player_', true) . '.' . strtolower($extension);
 
                 // Get the full path that the file will be stored
                 $destination = __DIR__ . '/uploads/' . $safeFilename;
@@ -81,8 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 position = :position,
                 team_name = :team_name,
                 image_path = :image_path
-            WHERE id = :id";
-// Prepare the statement with pdo->prepare()
+            WHERE id = :id AND user_id = :user_id"; // Ensure the player belongs to the logged-in user
+
+    // Prepare the statement with pdo->prepare()
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(":first_name", $firstName);
     $stmt->bindParam(":last_name", $lastName);
@@ -92,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindParam(":team_name", $team_name);
     $stmt->bindParam(":image_path", $imagePath); // Bind the image path, or null if no new image was uploaded
     $stmt->bindParam(":id", $playerId);
+    $stmt->bindParam(":user_id", $_SESSION['user_id']); // Bind the user ID to ensure the player belongs to the logged-in user
 
     $stmt->execute();
 
@@ -102,8 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
-
-
 
 <main>
     <h2><?= $pageTitle ?></h2>

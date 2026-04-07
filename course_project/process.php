@@ -3,11 +3,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die('Invalid request');
 }
 
+$pageTitle = "Player Confirmation";
+require "includes/header.php";
+
+requireLogin("index.php"); // Redirect to login page if not logged in
 
 require "includes/validation.php"; // Sanitize and validate the form data
 
-$pageTitle = "Player Confirmation";
-require "includes/header.php";
 
 $image = $_FILES['image'];
 if (isset($image) && $image['error'] !== UPLOAD_ERR_NO_FILE){
@@ -37,7 +39,7 @@ if (isset($image) && $image['error'] !== UPLOAD_ERR_NO_FILE){
             $extension = pathinfo($image['name'], PATHINFO_EXTENSION);
 
             // Make a unique filename to privent file overwrites
-            $safeFilename = uniqid('product_', true) . '.' . strtolower($extension);
+            $safeFilename = uniqid('player_', true) . '.' . strtolower($extension);
 
             // Get the full path that the file will be stored
             $destination = __DIR__ . '/uploads/' . $safeFilename;
@@ -74,8 +76,8 @@ if (!empty($errors)) { ?>
 
 require "includes/connect.php";
 
-$sql = "INSERT INTO players (first_name, last_name, email, phone, position, team_name, image_path) 
-             VALUES (:first_name, :last_name, :email, :phone, :position, :team_name, :image_path)"; // SQL statement with named placeholders
+$sql = "INSERT INTO players (first_name, last_name, email, phone, position, team_name, image_path, user_id) 
+             VALUES (:first_name, :last_name, :email, :phone, :position, :team_name, :image_path, :user_id)"; // SQL statement with named placeholders
 
 $stmt = $pdo->prepare($sql); // Prepare the statement with pdo->prepare()
 
@@ -87,6 +89,7 @@ $stmt->bindParam(":phone", $phone);
 $stmt->bindParam(":position", $position);
 $stmt->bindParam(":team_name", $team_name);
 $stmt->bindParam(":image_path", $imagePath); // Assuming $imagePath holds the path to the uploaded image, or null if no image was uploaded
+$stmt->bindParam(":user_id", $_SESSION['user_id']); // Bind the user ID from the session to associate the player with the logged-in user
 
 $stmt->execute(); // Execute the statement
 

@@ -6,5 +6,6 @@
   team_name VARCHAR(100) NOT NULL,
   phone VARCHAR(25) NOT NULL,
   email VARCHAR(150) NOT NULL,
-  image_path VARCHAR(255)
+  image_path VARCHAR(255),
+  user_id INT REFERENCES users (id) ON DELETE CASCADE
 );
