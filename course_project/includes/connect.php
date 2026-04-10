@@ -1,8 +1,8 @@
 <?php
-$host = "localhost"; // Hostname
-$db = "team-tracker"; // Database name
-$user = "root"; // Username
-$password = ""; // Password
+$host = "172.31.22.43"; // Hostname
+$db = "Elijah200653466"; // Database name
+$user = "Elijah200653466"; // Username
+$password = "mZYUTfy1Z-"; // Password
 
 // This points to the database
 $dsn = "mysql:host=$host;dbname=$db";
